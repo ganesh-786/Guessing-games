@@ -76,3 +76,33 @@ class Game {
 function newGame() {
   return new Game();
 }
+
+// :::::::::::::::Interactive Javascript::::::::::::::::::::::::
+let game = newGame();
+let input = document.getElementById("player-input");
+let message = document.getElementById("message");
+let pastGuesses = document.getElementById("past-guesses");
+
+document.getElementById("submit").addEventListener("click", function () {
+  let guess = Number(input.value);
+  try {
+    const result = game.playersGuessSubmission(guess);
+    message.textContent = result;
+    pastGuesses.textContent = `Past Guesses: ${game.pastGuesses.join(", ")}`;
+  } catch (error) {
+    message.textContent = error;
+  }
+  input.value = "";
+});
+
+document.getElementById("hint").addEventListener("click", function () {
+  const hintings = game.provideHint();
+  message.textContent = `One of following is correct: ${hintings.join(", ")}`;
+});
+
+document.getElementById("reset").addEventListener("click", function () {
+  game = new Game();
+  message.textContent = "Game has been reset & You can start guessing";
+  input.value = "";
+  pastGuesses.textContent = "";
+});
